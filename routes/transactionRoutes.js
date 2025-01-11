@@ -1,4 +1,5 @@
 const express = require('express');
+const getTransactionFromRedis= require('../config/redis');
 const transactionController = require('../controllers/transactionController');
 const router = express.Router();
 

@@ -1,18 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const redis = require('redis');
+const redisClient= require('../config/redis');
 const Inventory = require('../routes/inventoryRoutes');  // Import your Inventory model
 
-// Create Redis client
-const redisClient = redis.createClient({
-  host: 'localhost',  // Redis server address (change if using a remote Redis server)
-  port: 6379,         // Redis port (default: 6379)
-});
 
-redisClient.on('error', (err) => {
-  console.error('Redis error:', err);
-});
 
 /**
  * @swagger

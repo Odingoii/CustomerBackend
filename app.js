@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const mongoose = require('mongoose');
 const redis = require('redis');
@@ -8,7 +7,7 @@ const authRoutes = require('./routes/auth');
 const { verifyToken } = require('./middleware/auth');
 const bodyParser = require('body-parser');
 const supermarketRoutes = require('./routes/supermarketRoutes');
-const inventoryItems = require('./routes/inventoryRoutes')
+const inventoryRoutes = require('./routes/inventoryRoutes'); // Fixed typo
 const transactionRoutes = require('./routes/transactionRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
@@ -44,16 +43,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Routes (protected and unprotected)
 app.use('/api/auth', authRoutes); // Authentication routes
 
-
 // Example of protecting additional routes
 app.use('/api/protected', verifyToken, (req, res) => {
   res.json({ message: 'Access granted. This is another protected route.', user: req.user });
 });
-app.use('/api', supermarketRoutes);  // Add the new route under "/api"
-app.use('.api', inventoryItems);
-app.use('/api', transactionRoutes);
-app.use('/api', paymentRoutes);
-
+app.use('/api', supermarketRoutes);  // Supermarket routes
+app.use('/api', inventoryRoutes);    // Inventory routes
+app.use('/api', transactionRoutes);  // Transaction routes
+app.use('/api', paymentRoutes);      // Payment routes
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
